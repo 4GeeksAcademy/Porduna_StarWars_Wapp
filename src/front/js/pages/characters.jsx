@@ -58,16 +58,16 @@ export const Characters = () => {
         centeredSlides={true}
         loop={true}
         slidesPerView="auto"
-        coverflowEffect={{ rotate: 0, stretch: 0, depth: 150, modifier: 2.5, slideShadows: true,
+        coverflowEffect={{ rotate: 0, stretch: 0, depth: 80, modifier: 2.5, slideShadows: true,
         }}
         autoplay={{ delay: 3000,  disableOnInteraction: false,
         }}
         breakpoints={{
-          640: { slidesPerView: 1, spaceBetween: 20,
+          640: { slidesPerView: 1, spaceBetween: 10,
           },
-          768: { slidesPerView: 3, spaceBetween: 40,
+          768: { slidesPerView: 3, spaceBetween: 20,
           },
-          1024: { slidesPerView: 4, spaceBetween: 80,
+          1024: { slidesPerView: 4, spaceBetween: 40,
           },
         }}>
         {/* <!-- Slider Swiper Container --> */}
@@ -89,7 +89,7 @@ export const Characters = () => {
 
                   <div className="card-body border bg-white p-4">
                     <div className="entry-header mb-3">
-                      <h2 className="card-title entry-title h6 mb-0 text-center">
+                      <h2 className="card-title entry-title h4 mb-0 text-center">
                         <a className="link-dark text-decoration-none">{item.name}
                           </a>
                       </h2>

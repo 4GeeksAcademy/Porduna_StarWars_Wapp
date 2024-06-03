@@ -1,9 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "./store/appContext";
-import { Link } from "react-router-dom";
 
 
-export const PlanetsDetail = () => {
+export const PlanetDetails = () => {
 
     const { store, actions } = useContext(Context);
 
