@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Context } from "./store/appContext";
+import { Context } from "../../store/appContext";
 
 
 export const PlanetDetails = () => {
@@ -31,13 +31,13 @@ export const PlanetDetails = () => {
                     </div>
                     <div className="col-md-8">
                         <div className="card-body">
-                            <h1 className="card-title text-white">{store.currentPlanet.properties.name}</h1>
-                            <p className="card-text text-white mt-3">Diameter: {store.currentPlanet.properties.diameter}</p>
-                            <p className="card-text text-white">Population: {store.currentPlanet.properties.population}</p>
-                            <p className="card-text text-white">Climate: {store.currentPlanet.properties.climate}</p>
-                            <p className="card-text text-white">Terrain: {store.currentPlanet.properties.terrain}</p>
-                            <p className="card-text text-white">Orbital Period: {store.currentPlanet.properties.orbital_period}</p>
-                            <p className="card-text text-white">Rotation Period: {store.currentPlanet.properties.rotation_period}</p>
+                            <h1 className="card-title text-dark">{store.currentPlanet.properties.name}</h1>
+                            <p className="card-text text-dark mt-3">Diameter: {store.currentPlanet.properties.diameter}</p>
+                            <p className="card-text text-dark">Population: {store.currentPlanet.properties.population}</p>
+                            <p className="card-text text-dark">Climate: {store.currentPlanet.properties.climate}</p>
+                            <p className="card-text text-dark">Terrain: {store.currentPlanet.properties.terrain}</p>
+                            <p className="card-text text-dark">Orbital Period: {store.currentPlanet.properties.orbital_period}</p>
+                            <p className="card-text text-dark">Rotation Period: {store.currentPlanet.properties.rotation_period}</p>
                             
 
                         </div>

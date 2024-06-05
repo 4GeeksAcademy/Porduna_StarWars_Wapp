@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Context } from "./store/appContext";
+import { Context } from "../../store/appContext";
 
 
 
@@ -25,14 +25,14 @@ export const CharacterDetails = () => {
                     </div>
                     <div className="col-md-8">
                         <div className="card-body">
-                            <h1 className="card-title text-white">{store.currentUser.properties.name}</h1>
-                            <p className="card-text text-white mt-3">Height: {store.currentUser.properties.height}</p>
-                            <p className="card-text text-white">Gender: {store.currentUser.properties.gender}</p>
-                            <p className="card-text text-white">Birth: {store.currentUser.properties.birth_year}</p>
-                            <p className="card-text text-white">Mass: {store.currentUser.properties.mass}</p>
-                            <p className="card-text text-white">Hair: {store.currentUser.properties.hair_color}</p>
-                            <p className="card-text text-white">Skin: {store.currentUser.properties.skin_color}</p>
-                            <p className="card-text text-white">Eyes: {store.currentUser.properties.eye_color}</p>
+                            <h1 className="card-title text-dark">{store.currentUser.properties.name}</h1>
+                            <p className="card-text text-dark mt-3">Height: {store.currentUser.properties.height}</p>
+                            <p className="card-text text-dark">Gender: {store.currentUser.properties.gender}</p>
+                            <p className="card-text text-dark">Birth: {store.currentUser.properties.birth_year}</p>
+                            <p className="card-text text-dark">Mass: {store.currentUser.properties.mass}</p>
+                            <p className="card-text text-dark">Hair: {store.currentUser.properties.hair_color}</p>
+                            <p className="card-text text-dark">Skin: {store.currentUser.properties.skin_color}</p>
+                            <p className="card-text text-dark">Eyes: {store.currentUser.properties.eye_color}</p>
                         </div>
                     </div>
                 </div>

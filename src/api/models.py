@@ -27,7 +27,7 @@ class Posts(db.Model):
     description = db.Column(db.String(), nullable=False)
     body = db.Column(db.String(), nullable=False)
     leyend = db.Column(db.String(), nullable=False)
-    publication_date = db.Column(db.Date())
+    publication_date = db.Column(db.Date)
     image_url = db.Column(db.String(), nullable=False)
     # Se define el ForeignKey
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -55,7 +55,7 @@ class Comments(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
     post_to = db.relationship('Posts', foreign_keys=[post_id])
     body = db.Column(db.String(), nullable=False)
-    date = db.Column(db.Date())
+    date = db.Column(db.Date)
 
     def __repr__(self):
         return f'<Comments: {self.post_id}>'
@@ -71,18 +71,18 @@ class Comments(db.Model):
 class Planets(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), unique=True, nullable=True)
-    rotation_period = db.Column(db.Float(), nullable=True)
-    orbital_period = db.Column(db.Float(), nullable=True)
-    diameter = db.Column(db.Float(), nullable=True)
+    rotation_period = db.Column(db.Float, nullable=True)
+    orbital_period = db.Column(db.Float, nullable=True)
+    diameter = db.Column(db.Float, nullable=True)
     climate = db.Column(db.String(), unique=False, nullable=True)
     gravity = db.Column(db.String(), unique=False, nullable=True)
     terrain = db.Column(db.String(), unique=False, nullable=True)
-    surface_water = db.Column(db.Integer(), nullable=True)
-    population = db.Column(db.Integer(), nullable=True)
-    residents = db.Column(db.Integer(), db.ForeignKey('characters.id'))  # Más adelante modificar para interconectarlo con Characters
-    to_residents = db.relationship('Characters', foreign_keys=[residents])
-    films = db.Column(db.Integer(), db.ForeignKey('films.id'))  # Más adelante modificar para interconectarlo con Films
-    to_films = db.relationship('Films', foreign_keys=[films])
+    surface_water = db.Column(db.Integer, nullable=True)
+    population = db.Column(db.Integer, nullable=True)
+    residents = db.Column(db.String(), unique=False, nullable=True)  #  db.Column(db.Integer, db.ForeignKey('characters.id'))  # Más adelante modificar para interconectarlo con Characters
+    # to_residents = db.relationship('Characters', foreign_keys=[residents])
+    films = db.Column(db.String(), unique=False, nullable=True)  #  db.Column(db.Integer, db.ForeignKey('films.id'))  # Más adelante modificar para interconectarlo con Films
+    to_films = db.Column(db.String(), unique=False, nullable=True)  #  db.relationship('Films', foreign_keys=[films])
 
     def __repr__(self):
         return f'<Planets: {self.name}>'
@@ -103,20 +103,20 @@ class Planets(db.Model):
 
 
 class Characters(db.Model):
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), unique=True, nullable=True)
-    height = db.Column(db.Float(), nullable=True)
-    mass = db.Column(db.Float(), nullable=True)
+    height = db.Column(db.Float, nullable=True)
+    mass = db.Column(db.Float, nullable=True)
     hair_color = db.Column(db.String(), unique=False, nullable=True)
     skin_color = db.Column(db.String(), unique=False, nullable=True)
     eye_color = db.Column(db.String(), unique=False, nullable=True)
-    date_of_birth = db.Column(db.Date(), nullable=True)
+    date_of_birth = db.Column(db.Date, nullable=True)
     gender = db.Column(db.String(), unique=False, nullable=True)
-    home_world = db.Column(db.Integer(), db.ForeignKey('planets.id'))  # Más adelante modificar para interconectarlo con Planets
+    home_world = db.Column(db.Integer, db.ForeignKey('planets.id'))  # Más adelante modificar para interconectarlo con Planets
     to_home_world = db.relationship('Planets', foreign_keys=[home_world])
-    films = db.Column(db.Integer(), db.ForeignKey('films.id'))  # Más adelante modificar para interconectarlo con Films
+    films = db.Column(db.Integer, db.ForeignKey('films.id'))  # Más adelante modificar para interconectarlo con Films
     to_films = db.relationship('Films', foreign_keys=[films])
-    vehicles = db.Column(db.Integer(), db.ForeignKey('vehicles.id'))  # Más adelante modificar para interconectarlo con Vehicles
+    vehicles = db.Column(db.Integer, db.ForeignKey('vehicles.id'))  # Más adelante modificar para interconectarlo con Vehicles
     to_vehicles = db.relationship('Vehicles', foreign_keys=[vehicles])
     species = db.Column(db.String(), unique=False, nullable=True)
 
@@ -139,18 +139,18 @@ class Characters(db.Model):
 
 
 class Films(db.Model):
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(), unique=True, nullable=False)
     opening_crawl = db.Column(db.String(), unique=True, nullable=False)
     director = db.Column(db.String(), unique=False, nullable=False)
     producer = db.Column(db.String(), unique=False, nullable=False)
-    release_date = db.Column(db.Date(), unique=True)
-    characters = db.Column(db.Integer(), db.ForeignKey('characters.id'))  # Más adelante modificar para interconectarlo con Characters
-    to_characters = db.relationship('Characters', foreign_keys=[characters])
-    planets = db.Column(db.Integer(), db.ForeignKey('planets.id'))  # Más adelante modificar para interconectarlo con Planets
-    to_planets = db.relationship('Planets', foreign_keys=[planets])
-    vehicles = db.Column(db.Integer(), db.ForeignKey('vehicles.id'))  # Más adelante modificar para interconectarlo con Vehicles
-    to_vehicles = db.relationship('Vehicles', foreign_keys=[vehicles])
+    release_date = db.Column(db.Date, unique=True)
+    characters_id = db.Column(db.String(), unique=False, nullable=True)  #  db.Column(db.Integer, db.ForeignKey('characters.id'))  # Más adelante modificar para interconectarlo con Characters
+    to_characters = db.Column(db.String(), unique=False, nullable=True)  #  db.relationship('Characters', foreign_keys=[characters])
+    planets = db.Column(db.String(), unique=False, nullable=True)  #  db.Column(db.Integer, db.ForeignKey('planets.id'))  # Más adelante modificar para interconectarlo con Planets
+    to_planets = db.Column(db.String(), unique=False, nullable=True)  #  db.relationship('Planets', foreign_keys=[planets])
+    vehicles = db.Column(db.String(), unique=False, nullable=True)  #  db.Column(db.Integer, db.ForeignKey('vehicles.id'))  # Más adelante modificar para interconectarlo con Vehicles
+    to_vehicles = db.Column(db.String(), unique=False, nullable=True)  #  db.relationship('Vehicles', foreign_keys=[vehicles])
     species = db.Column(db.String(), unique=False, nullable=True)
 
     def __repr__(self):
@@ -163,28 +163,28 @@ class Films(db.Model):
                 'director': self.director,
                 'producer': self.producer,
                 'release_date': self.release_date,
-                'characters': self.characters,
+                'characters_id': self.characters_id,
                 'planets': self.planets,
                 'vehicles': self.vehicles,
                 'species': self.species}
 
 
 class Vehicles(db.Model):
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), unique=False, nullable=True)
     model = db.Column(db.String(), unique=False, nullable=True)
     manufacturer = db.Column(db.String(), unique=False, nullable=True)
-    cost_in_credits = db.Column(db.Float(), nullable=True)
-    length = db.Column(db.Float(), nullable=True)
-    max_atmosphering_speed = db.Column(db.Float(), nullable=True)
+    cost_in_credits = db.Column(db.Float, nullable=True)
+    length = db.Column(db.Float, nullable=True)
+    max_atmosphering_speed = db.Column(db.Float, nullable=True)
     crew = db.Column(db.String(), unique=False, nullable=True)
-    passengers = db.Column(db.Float(), nullable=True)
-    cargo_capacity = db.Column(db.Float(), nullable=True)
+    passengers = db.Column(db.Float, nullable=True)
+    cargo_capacity = db.Column(db.Float, nullable=True)
     consumables = db.Column(db.String(), unique=False, nullable=True)
     vehicle_class = db.Column(db.String(), unique=False, nullable=True)
     pilots = db.Column(db.String(), unique=False, nullable=True)
-    films = db.Column(db.Integer(), db.ForeignKey('films.id'))  # Más adelante modificar para interconectarlo con Films
-    to_films = db.relationship('Films', foreign_keys=[films])
+    films = db.Column(db.String(), unique=False, nullable=True)  #  db.Column(db.Integer, db.ForeignKey('films.id'))  # Más adelante modificar para interconectarlo con Films
+    to_films = db.Column(db.String(), unique=False, nullable=True)  #  db.relationship('Films', foreign_keys=[films])
 
     def __repr__(self):
         return f'<Vehicles: {self.name}>'

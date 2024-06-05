@@ -27,7 +27,7 @@ export const Contacts = () => {
 
     return (
         <div className="container text-center">
-            <h1 className="text-white">Contacts for slug: {store.agenda}</h1>
+            <h1 className="text-white">Contacts: {store.agenda}</h1>
 
 
 

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import  SWLogo  from "../../img/Star_Wars_Logo.png";
 import "../../styles/navbar.css";
 
+
 export const Navbar = () => {
     const { store, actions } = useContext(Context);
 
@@ -35,10 +36,10 @@ export const Navbar = () => {
                         <li><a className="dropdown-item" href="#">Empire</a></li>
                     </ul> */}
                 </div>
+                <div className="ml-auto me-right d-flex justify-content-between mb-2">
                 <form role="search">
                     <input className="form-control" type="search" placeholder="A long time ago in a..." autocomplete="on" ></input>
                 </form>
-                <div className="ml-auto">
                     <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Favorites {store.favorites.length}</button>
                     <ul className="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="dropdownMenuButton">
                     {store.favorites.length > 0 ? (
@@ -57,7 +58,10 @@ export const Navbar = () => {
                     ) : (
                         <li className="dropdown-item">No favorites added</li>
                     )}
-                </ul>
+                    </ul>
+                    <Link className="nav-link link-light px-1" to="/login">Login</Link>
+                    <p className="Slash_Bar">/</p>
+                    <Link className="nav-link link-light px-1" to="/signup">Signup</Link>
                 </div>
             </div>
         </nav>
