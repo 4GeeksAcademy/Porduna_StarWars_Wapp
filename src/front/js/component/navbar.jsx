@@ -23,7 +23,7 @@ export const Navbar = () => {
             <span class="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse">
-                <div className="navbar-nav me-auto mb-2 mb-sm-0">
+                <div className="navbar-nav me-auto mb-2">
                     <Link className="nav-link link-light" to="/characters">Characters</Link>
                     <Link className="nav-link link-light" to="/planets">Planets</Link>
                     <Link className="nav-link link-light" to="/ships">Ships</Link>
@@ -36,7 +36,7 @@ export const Navbar = () => {
                         <li><a className="dropdown-item" href="#">Empire</a></li>
                     </ul> */}
                 </div>
-                <div className="ml-auto me-right d-flex justify-content-between mb-2">
+                <div className="ml-auto me-right d-flex mb-2">
                 <form role="search">
                     <input className="form-control" type="search" placeholder="A long time ago in a..." autocomplete="on" ></input>
                 </form>

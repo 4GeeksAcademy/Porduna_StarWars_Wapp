@@ -80,15 +80,12 @@ export const Planets = () => {
               <article>
                 <div className="card border-0">
                     {/* Imagen a mostrar con un fadein  */}
-                    <figure className="card-img-top m-0 overflow-hidden bsb-overlay-hover" >
-                      <img className="img-fluid bsb-scale bsb-hover-scale-up" loading="lazy" src={`https://starwars-visualguide.com/assets/img/planets/${item.uid}.jpg`} alt="https://starwars-visualguide.com/assets/img/placeholder.jpg"
+                    <figure className="card-img-top m-0" >
+                      <Link to={`/detail-planets/${item.uid}`} onClick={() => handlePlanet(item.url)}><img className="img-fluid" loading="lazy" src={`https://starwars-visualguide.com/assets/img/planets/${item.uid}.jpg`} alt="https://starwars-visualguide.com/assets/img/placeholder.jpg"
                       onError={(e) => { 
                         e.target.onerror = null; 
                         e.target.src = e.target.alt; 
-                      }}/>
-                      <figcaption>
-                      <Link to={`/detail-planets/${item.uid}`} onClick={() => handlePlanet(item.url)}><h4 className="h6 text-white bsb-hover-fadeInRight mt-2">Read More</h4></Link>
-                      </figcaption>
+                      }}/></Link>
                     </figure>
 
                     <div className="card-body border bg-white p-4">

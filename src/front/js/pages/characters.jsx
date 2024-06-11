@@ -80,11 +80,8 @@ export const Characters = () => {
             <article>
               <div className="card border-0">
                   {/* Imagen a mostrar con un fadein  */}
-                  <figure className="card-img-top m-0 overflow-hidden bsb-overlay-hover" >
-                    <img className="img-fluid bsb-scale bsb-hover-scale-up" loading="lazy" src={`https://starwars-visualguide.com/assets/img/characters/${item.uid}.jpg`} alt="..." />
-                    <figcaption>
-                    <Link to={`/detail-characters/${item.uid}`} onClick={() => handleUser(item.url)}><h4 className="h6 text-white bsb-hover-fadeInRight mt-2">Read More</h4></Link>
-                    </figcaption>
+                  <figure className="card-img-top m-0" >
+                    <Link to={`/detail-characters/${item.uid}`} onClick={() => handleUser(item.url)}><img className="img-fluid" loading="lazy" src={`https://starwars-visualguide.com/assets/img/characters/${item.uid}.jpg`} alt="..." /></Link>
                   </figure>
 
                   <div className="card-body border bg-white p-4">

@@ -11,7 +11,6 @@ export const PlanetDetails = () => {
     }, []);
 
 
-
     return (
         !store.currentPlanet ?
             <div className="spinner-border" role="status">
@@ -38,12 +37,9 @@ export const PlanetDetails = () => {
                             <p className="card-text text-dark">Terrain: {store.currentPlanet.properties.terrain}</p>
                             <p className="card-text text-dark">Orbital Period: {store.currentPlanet.properties.orbital_period}</p>
                             <p className="card-text text-dark">Rotation Period: {store.currentPlanet.properties.rotation_period}</p>
-                            
-
                         </div>
                     </div>
                 </div>
             </div>
-
     );
 }
