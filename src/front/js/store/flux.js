@@ -5,7 +5,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			currentUser: null,
 			currentUserUrl: "",
 			planets: [],
-			currentPlanet: null,
+			currentPlanet: [],
 			currentPlanetUrl: "",
 			vehicles: [],
 			currentVehicle: null,

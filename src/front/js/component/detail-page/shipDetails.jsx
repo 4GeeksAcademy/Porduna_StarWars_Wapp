@@ -36,10 +36,8 @@ export const ShipDetails = () => {
                             <p className="card-text text-dark">Length: {store.currentVehicle.properties.length}</p>
                             <p className="card-text text-dark">Passengers: {store.currentVehicle.properties.passengers}</p>
                             <p className="card-text text-dark">Max Speed: {store.currentVehicle.properties.max_atmosphering_speed}</p>
-
                         </div>
                     </div>
                 </div>
             </div>
-
     )};

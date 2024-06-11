@@ -37,5 +37,4 @@ export const CharacterDetails = () => {
                     </div>
                 </div>
             </div>
-
     )};
