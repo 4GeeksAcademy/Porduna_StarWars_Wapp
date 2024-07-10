@@ -1,30 +1,42 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
-import { useParams } from "react-router-dom";
 
 
-export const PlanetDetails = () => {
-    const {store, actions} = useContext(Context);
-    const params = useParams();
+export const ShipDetails = () => {
+
+    const { store, actions } = useContext(Context);
+
     useEffect(() => {
-        actions.getCurrentPlanet()
+        actions.getcurrentPlanet();
     }, []);
-    console.log('Params planetid', params.planetid);
-    console.log('Store planet', store.planet);
+
+
 
     return (
-        <div className="row justify-content-center">
-            <div className="col-6">
-                <div className="card">
-                    <div className="card-header">
-                        <strong>Planet name:</strong> {store.planets[params.planetid].name}
+        !store.currentPlanet ?
+            <div className="spinner-border" role="status">
+                <span className="sr-only">Loading...</span>
+            </div>
+            :
+            <div className="card mb-3 mx-auto" style={{ maxWidth: "60rem" }}>
+
+                <div className="row g-0 ">
+                    <div className="col-md-4" >
+                        <img 
+                        style={{ height: "375px" }}
+                        src={`https://starwars-visualguide.com/assets/img/vehicles/${store.currentPlanet.uid}.jpg`} className="img-fluid rounded-start" alt="..." />
                     </div>
-                    <div className="card-body">
-                        <p className="card-text">Rotation period: {store.planets[params.planetid].rotation_period}</p>
-                        <p className="card-text">Orbital Period: {store.planets[params.planetid].orbital_period}</p>
+                    <div className="col-md-8">
+                        <div className="card-body">
+                        <h1 className="card-title text-dark">{store.currentPlanet.properties.name}</h1>
+                            <p className="card-text text-dark mt-3">Diameter: {store.currentPlanet.properties.height}</p>
+                            <p className="card-text text-dark">Population: {store.currentPlanet.properties.gender}</p>
+                            <p className="card-text text-dark">Climate: {store.currentPlanet.properties.birth_year}</p>
+                            <p className="card-text text-dark">Terrain: {store.currentPlanet.properties.mass}</p>
+                            <p className="card-text text-dark">Orbital Period: {store.currentPlanet.properties.hair_color}</p>
+                            <p className="card-text text-dark">Rotation Period: {store.currentPlanet.properties.skin_color}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    )
-};
+    )};
