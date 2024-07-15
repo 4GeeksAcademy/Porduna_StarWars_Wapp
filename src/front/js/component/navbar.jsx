@@ -19,8 +19,8 @@ export const Navbar = () => {
                     <img src={SWLogo} alt="SW logo" className="mx-4" width="90" height="54" />
                 </div>
             </Link>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse">
                 <div className="navbar-nav me-auto mb-2">
@@ -38,7 +38,7 @@ export const Navbar = () => {
                 </div>
                 <div className="ml-auto me-right d-flex mb-2">
                 <form role="search">
-                    <input className="form-control" type="search" placeholder="A long time ago in a..." autocomplete="on" ></input>
+                    <input className="form-control" type="search" placeholder="A long time ago in a..." autoComplete="on" ></input>
                 </form>
                     <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Favorites {store.favorites.length}</button>
                     <ul className="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="dropdownMenuButton">

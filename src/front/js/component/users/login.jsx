@@ -1,55 +1,72 @@
-import React, { useState } from "react";
-
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Context } from "../../store/appContext";
+import "../../../styles/loginForm.css";
 
 export const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+    const {store, actions} = useContext(Context)
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [rememberMe, setRememberMe] = useState (false);
+    const navigate = useNavigate()
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
+    const handleEmailChange = (e) => { setEmail(e.target.value) };
+    const handlePasswordChange = (e) => { setPassword(e.target.value) };
+    const handleRememberMe = (e) => { setRememberMe(e.target.checked) };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
+    const handleReset = () => {
+      setEmail('');
+      setPassword('');
+      setRememberMe(false);
+    }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const dataToSend = { email, password };
-    console.log(dataToSend);
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const dataToSend = { email, password, rememberMe };
+        const url = `${process.env.BACKEND_URL}/api/login`;
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(dataToSend),
+            headers: {
+                'Content-Type' : 'application/json'
+            }        
+        }
+        const response = await fetch(url, options)
+        if (!response.ok) {
+            console.log('Error: ', response.status, response.statusText);
+            return 
+        }
+        const data = await response.json();
+        localStorage.setItem("token", data.access_token);
+        localStorage.setItem("user", JSON.stringify(data.results));
+        actions.setIsLogin(true);
+        actions.setUser(data.results);
+        navigate('/dashboard')
+    };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h2 className="card-title text-center mb-3 display-5">
-                Iniciar sesión
-              </h2>
-              <form onSubmit={handleSubmit}>
-                <div className="form-group mt-3 h6">
-                  <label htmlFor="email" className="mb-1">
-                    Correo electrónico:
-                  </label>
-                  <input type="email" className="form-control" id="email" value={email} onChange={handleEmailChange} required />
-                </div>
-                <div className="form-group mt-3 h6">
-                  <label htmlFor="password" className="mb-1">
-                    Contraseña:
-                  </label>
-                  <input type="password" className="form-control" id="password" value={password} onChange={handlePasswordChange} required />
-                </div>
-                <div className="text-center">
-                  <button type="submit" className="btn btn-primary mt-5">
-                    Iniciar sesión
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+    <div className="d-flex justify-content-center">
+      <div className="formLog" onSubmit={handleSubmit}>
+        <p id="heading">Login</p>
+        <div className="field">
+          <span className="material-symbols-outlined">alternate_email</span>
+          <input autoComplete="off" placeholder="Username" className="formLog-control" type="email" value={email} onChange={handleEmailChange} />
         </div>
+        <div className="field">
+          <span className="material-symbols-outlined">lock</span>
+          <input placeholder="Password" required={true} className="formLog-control" type="password" id="password" value={password} onChange={handlePasswordChange} />
+        </div>
+        <div className="mb-3 formLog-check">
+          <input type="radio" className="formLog-check-input" id="rememberPassword" checked={rememberMe} onChange={handleRememberMe}></input>
+          <label className="formLog-check-label text-white" htmlFor="rememberPassword">&nbsp;&nbsp;Remember me</label>
+        </div>
+        <div className="d-flex justify-content">
+          <button className="button1 mx-auto">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </button>
+          <button type="reset" className="button1 mx-auto" onClick={handleReset}>&nbsp;&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;&nbsp;</button>
+        </div>
+        <button className="button1">Forgot Password</button>
       </div>
     </div>
   );
