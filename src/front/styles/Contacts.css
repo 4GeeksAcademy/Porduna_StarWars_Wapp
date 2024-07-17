@@ -1,0 +1,28 @@
+#book {
+    color:rgb(231, 191, 10);
+    margin: 25px;
+}
+
+.button3 {
+    padding: 0.5em;
+    padding-left: 1.1em;
+    padding-right: 1.1em;
+    border-radius: 5px;
+    margin-right: 0.5em;
+    border: none;
+    outline: none;
+    transition: .4s ease-in-out;
+    background-color: rgb(56, 56, 56);
+    color: rgb(255, 255, 255);
+  }
+  
+  .button3:hover {
+    background-color: rgb(85, 74, 69);
+    color: rgb(255, 255, 255);
+  }
+
+  #outOfServiceLogo {
+    margin-left: 25%;
+    width: 500px;
+    height: 500px;
+  }

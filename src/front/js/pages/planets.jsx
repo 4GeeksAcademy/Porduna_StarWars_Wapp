@@ -15,7 +15,7 @@ export const Planets = () => {
   const [favorites, setFavorites] = useState(store.favorites.map(item => item.name));
 
   // Estado para gestionar los íconos individuales
-  const [icons, setIcons] = useState(store.users.reduce((acc, item) => {
+  const [icons, setIcons] = useState(store.planets.reduce((acc, item) => {
     acc[item.name] = "fa-solid fa-book-journal-whills";
     return acc;
   }, {}));
@@ -45,13 +45,13 @@ export const Planets = () => {
     }
   };
 
-  const handleUser = (url) => {
-    actions.settingUserUrl(url);
-  };
+  const handleLearnMore = (planet, imageUrl) => {
+    actions.settingPlanet({ ...planet, imageUrl: imageUrl })
+}
 
   return (
-      <div className="container px-4 py-5 text-centered">
-        <Swiper
+      <div className="container px-1 py-5 text-centered">
+      <Swiper
         modules={[EffectCoverflow, Autoplay]}
         effect="coverflow"
         grabCursor={true}
@@ -70,8 +70,8 @@ export const Planets = () => {
           1024: { slidesPerView: 4, spaceBetween: 40,
           },
         }}>
-        {/* <!-- Slider Swiper Container --> */}
-          <div className="swiper bsb-blog-pro-2">
+         {/* <!-- Slider Swiper Container --> */}
+         <div className="swiper bsb-blog-pro-2">
             {/* <!-- Additional required wrapper --> */}
             <div className="swiper swiper-wrapper mb-5 mb-sm-6">
               {/* <!-- Slide 1 --> */}
@@ -80,37 +80,40 @@ export const Planets = () => {
               <article>
                 <div className="card border-0">
                     {/* Imagen a mostrar con un fadein  */}
-                    <figure className="card-img-top m-0" >
-                      <Link to={'/detail-planets/${item.uid}'} onClick={() => handlePlanet(item.url)}><img className="img-fluid" loading="lazy" src={`https://starwars-visualguide.com/assets/img/planets/${item.uid}.jpg`} alt="https://starwars-visualguide.com/assets/img/placeholder.jpg"
+                    <figure className="card-img-top m-0 overflow-hidden bsb-overlay-hover" >
+                      <Link to={`/detail-planets/${item.uid}`} onClick={() => handleLearnMore(item.url)}>
+                      <img className="img-fluid bsb-scale bsb-hover-scale-up" loading="lazy" src={`https://starwars-visualguide.com/assets/img/planets/${item.uid}.jpg`} alt="https://starwars-visualguide.com/assets/img/placeholder.jpg"
                       onError={(e) => { 
                         e.target.onerror = null; 
                         e.target.src = e.target.alt; 
-                      }}/></Link>
-                      <Link to={'/detail-planets/${item.uid}'}></Link>
+                      }}/></Link>                      
                     </figure>
 
                     <div className="card-body border bg-white p-4">
                       <div className="entry-header mb-3">
                         <h2 className="card-title entry-title h4 mb-0 text-center">
-                          <a className="link-dark text-decoration-none">{item.name}
-                            </a>
+                          <p className="link-dark text-decoration-none">{item.name}
+                            </p>
                         </h2>
                       </div>
-                      <p className="card-text entry-summary text-justify" >
-                        "It is a period of civil war. Rebel spaceships, striking from a hidden base, have won their first victory against the evil Galactic Empire. During the battle, Rebel spies managed to steal secret plans to the Empire's ultimate weapon, the Death Star..."
-                        <div className="text-end">
-                        <button className="btn btn-outline-warning" onMouseOut={() => staticImage(item.name)} onMouseOver={() => movingImage(item.name)} onClick={() => toggleFavorite(item.name)}>
-                          <i className={icons[item.name]} /></button>
+                        <div className="card-text entry-summary text-justify" >
+                          Diameter: ,<br />
+                          Population:  ,<br />
+                          Climate:  ,<br />
+                          Terrain: ,etc.
+                          <div className="text-end">
+                            <button className="btn btn-outline-warning" onMouseOut={() => staticImage(item.name)} onMouseOver={() => movingImage(item.name)} onClick={() => toggleFavorite(item.name)}>
+                              <i className={icons[item.name]} /></button>
+                          </div>
                         </div>
-                      </p>
+                      </div>
                     </div>
-                </div>
                 </article>
               </SwiperSlide>
               ))}
-            </div>
           </div>
-        </Swiper>
-      </div>
+        </div>
+      </Swiper>
+    </div>
   );
 };

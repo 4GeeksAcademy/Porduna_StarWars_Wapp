@@ -28,14 +28,14 @@ export const ShipDetails = () => {
                     </div>
                     <div className="col-md-8">
                         <div className="card-body">
-                            <h1 className="card-title text-dark">{store.currentVehicle.properties.name}</h1>
-                            <p className="card-text text-dark mt-3">Height: {store.currentVehicle.properties.model}</p>
-                            <p className="card-text text-dark">Class: {store.currentVehicle.properties.vehicle_class}</p>
-                            <p className="card-text text-dark">Manufacturer: {store.currentVehicle.properties.manufacturer}</p>
-                            <p className="card-text text-dark">Cost: {store.currentVehicle.properties.cost_in_credits}</p>
-                            <p className="card-text text-dark">Length: {store.currentVehicle.properties.length}</p>
-                            <p className="card-text text-dark">Passengers: {store.currentVehicle.properties.passengers}</p>
-                            <p className="card-text text-dark">Max Speed: {store.currentVehicle.properties.max_atmosphering_speed}</p>
+                            <h1 className="card-title text-dark">{store.currentVehicle.name}</h1>
+                            <p className="card-text text-dark mt-3">Height: {store.currentVehicle.model}</p>
+                            <p className="card-text text-dark">Class: {store.currentVehicle.vehicle_class}</p>
+                            <p className="card-text text-dark">Manufacturer: {store.currentVehicle.manufacturer}</p>
+                            <p className="card-text text-dark">Cost: {store.currentVehicle.cost_in_credits}</p>
+                            <p className="card-text text-dark">Length: {store.currentVehicle.length}</p>
+                            <p className="card-text text-dark">Passengers: {store.currentVehicle.passengers}</p>
+                            <p className="card-text text-dark">Max Speed: {store.currentVehicle.max_atmosphering_speed}</p>
                         </div>
                     </div>
                 </div>

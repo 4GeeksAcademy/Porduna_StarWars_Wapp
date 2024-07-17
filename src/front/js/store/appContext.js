@@ -23,9 +23,12 @@ const injectContext = PassedComponent => {
 
 		useEffect(() => {
 			//Añadimos al useEffect las funciones que nos traen los elementos de la api para que se ejecuten nada más cargar la página
-			state.actions.getUsers();
+			state.actions.getMessage();
+			state.actions.getCharacters();
 			state.actions.getPlanets();
 			state.actions.getVehicles();
+			state.actions.createAgenda();
+			state.actions.getContacts();
 		}, []);
 
 		

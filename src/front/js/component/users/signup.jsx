@@ -7,8 +7,7 @@ export const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [agreeTerms, setAgreeTerms] = useState (false);
-  const [passwordError, setPasswordError] = useState(""); // Añadir estado para el error de contraseña
+  const [errorMessage, setErrorMessage] = useState("");  // Para almacenar el mensaje de error
   const navigate = useNavigate();
 
 
@@ -24,57 +23,47 @@ export const SignUp = () => {
     setConfirmPassword(e.target.value);
   };
 
-  // To check if password and confirm password match
-  const handlePasswordConfirmed = () => {
-    if (password !== confirmPassword) {
-      setPasswordError("Does not match password");
-    } else {
-      setPasswordError("");
-    }
-  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const dataToSend = {
+        email,
+        password,
+    };
+    const url = `${process.env.BACKEND_URL}/api/signup`;
 
-  const handleAgreeTerms = e => setAgreeTerms(e.target.checked);
-
-  const handleReset = () => {
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
-    setRememberMe(false);
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    handlePasswordConfirmed();
-    if (passwordError === "") {
-      const dataToSend = { email, password, agreeTerms };
-      const url = `${process.env.BACKEND_URL}/api/signup`;
-      const options = {
+    const options = {
         method: 'POST',
-        body: JSON.stringify(dataToSend),
         headers: {
-          'content-type': 'application/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(dataToSend)
-      };
-      const response = await fetch(url, options)
-      console.log(response);
-      if (!response.ok) {
-        console.log('Error: ', response.status, response.statusText);
-        return
-      }
-      const data = await response.json()
-      console.log();
-      localStorage.setItem("token", data.access_token)
-      actions.setIsLogin(true)
-      console.log(data.access_token);
-      navigate('/profile')
     };
-}
+
+    try {
+        const response = await fetch(url, options,);
+        if (response.status === 409) {
+            setErrorMessage("El usuario ya existe");
+        } else if (!response.ok) {
+            console.log('Error:', response.status, response.statusText);
+            setErrorMessage("Ha ocurrido un error, intentalo de nuevo.");
+        } else {
+            const data = await response.json();
+            localStorage.setItem('token', data.access_token);
+            actions.setIsLogin(true);
+            actions.setcurrentUser(data.results);
+            navigate('/dashboard');
+        }
+    } catch (error) {
+        console.error('Fetch error:', error);
+        setErrorMessage("An error occurred. Please try again.");
+    }
+};
 
   return (
     <div className="d-flex justify-content-center">
-      <form className="formLog" onSubmit={handleSubmit}>
-        <p id="heading">Sign Up To Binaurapp</p>
+      {errorMessage && <div className="alert alert-secondary" role="alert">{errorMessage}</div>}
+      <form className="formLog">
+        <p id="heading">Sign Up</p>
         <div className="field" onSubmit={handleSubmit}>
           <span className="material-symbols-outlined">alternate_email</span>
           <input autoComplete="off" placeholder="Username" className="formLog-control" type="email" value={email} onChange={handleEmailChange} />
@@ -88,21 +77,15 @@ export const SignUp = () => {
           <input placeholder="Confirm Password" required={true} className="formLog-control" type="password" id="passwordConfirmed" value={confirmPassword} onChange={handleConfirmPasswordChange} />
         </div>
         <div className="mb-3 formLog-check">
-          <input type="radio" className="formLog-check-input" id="termsAgreement" checked={agreeTerms} onChange={handleAgreeTerms}></input>
+          <input type="radio" className="formLog-check-input" id="termsAgreement"></input>
           <label className="formLog-check-label text-white" htmlFor="termsAgreement">&nbsp;&nbsp;I agree the Terms of Privacy Policy</label>
         </div>
         <div className="d-flex justify-content">
           <button className="button1 mx-auto" type="submit" onClick={handleSubmit}>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign up&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </button>
-          <button type="reset" className="button1 mx-auto" onClick={handleReset}>&nbsp;&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;&nbsp;</button>
+          <button type="reset" className="button1 mx-auto">&nbsp;&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;&nbsp;</button>
         </div>
-        <div className="d-flex mx-auto justify-content-center text-white mb-2">
-          <div className="borderLog align-self-center"></div>
-          <span>Or sign up with</span>
-          <div className="borderLog align-self-center"></div>
-        </div>
-        <button type="reset" className="button1 text-success mb-3"><b>Spotify</b></button>
       </form>
     </div>
   );
