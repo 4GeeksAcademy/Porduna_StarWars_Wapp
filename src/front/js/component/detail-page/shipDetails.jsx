@@ -17,7 +17,7 @@ export const ShipDetails = () => {
     }, [store.Vehicles, params.vehicle]);
 
     const fetchVehicleData = () => {
-        fetch(`https://www.swapi.tech/api/people/${params.vehicle}`)
+        fetch(`https://www.swapi.tech/api/starships/${params.vehicle}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -26,7 +26,7 @@ export const ShipDetails = () => {
             })
             .then((data) => {
                 setVehicleUno(data.result.properties);
-                const vehicleImage = `https://starwars-visualguide.com/assets/img/vehicles/${parseInt(params.vehicle) + 1}.jpg`;
+                const vehicleImage = `https://starwars-visualguide.com/assets/img/starships/${parseInt(params.vehicle) + 6}.jpg`;
                 setVehicleImage(vehicleImage);
             })
             .catch((error) => {

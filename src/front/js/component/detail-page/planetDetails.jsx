@@ -7,17 +7,17 @@ export const PlanetDetails = () => {
 
     const { store, actions } = useContext(Context);
     const params = useParams();
-    const [characterUno, setCharacterUno] = useState({});
-    const [characterImage, setCharacterImage] = useState("");
+    const [planetUno, setPlanetUno] = useState({});
+    const [planetImage, setPlanetImage] = useState("");
 
     useEffect(() => {
-        if (store.Planets && store.Planets[params.character]) {
-            fetchCharacterData();
+        if (store.Planets && store.Planets[params.planet]) {
+            fetchPlanetData();
         }
-    }, [store.Planets, params.character]);
+    }, [store.Planets, params.planet]);
 
-    const fetchCharacterData = () => {
-        fetch(`https://www.swapi.tech/api/people/${params.character}`)
+    const fetchPlanetData = () => {
+        fetch(`https://www.swapi.tech/api/planets/${params.planet}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -25,20 +25,20 @@ export const PlanetDetails = () => {
                 return response.json();
             })
             .then((data) => {
-                setCharacterUno(data.result.properties);
-                const characterImage = `https://starwars-visualguide.com/assets/img/planets/${parseInt(params.character) + 1}.jpg`;
-                setCharacterImage(characterImage);
+                setPlanetUno(data.result.properties);
+                const planetImage = `https://starwars-visualguide.com/assets/img/planets/${parseInt(params.planet) + 1}.jpg`;
+                setPlanetImage(planetImage);
             })
             .catch((error) => {
-                console.error('Error fetching character:', error);
+                console.error('Error fetching planet:', error);
             });
     };
 
-    if (!store.Planets || !store.Planets[params.character]) {
+    if (!store.Planets || !store.Planets[params.planet]) {
         return <div>Loading...</div>;
     }
 
-    const character = store.Planets[params.character];
+    const planet = store.Planets[params.planet];
 
     return (
         !store.Planets ?
@@ -50,7 +50,7 @@ export const PlanetDetails = () => {
 
                 <div className="row g-0 ">
                     <div className="col-md-4">
-                        <img src={characterImage} className="img-fluid rounded-start" alt="..." />
+                        <img src={planetImage} className="img-fluid rounded-start" alt="..." />
                     </div>
                     <div className="col-md-8">
                         <div className="card-body">
