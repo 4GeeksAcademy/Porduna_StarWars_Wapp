@@ -1,6 +1,13 @@
-#book {
+#infoLogo {
     color:rgb(231, 191, 10);
-    margin: 25px;
+}
+
+#editInfo {
+  color:rgb(192, 192, 192);
+}
+
+#deleteInfo {
+  color:rgb(184, 115, 51);
 }
 
 .button3 {

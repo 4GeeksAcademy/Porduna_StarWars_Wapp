@@ -2,20 +2,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			message: null,
-			characters: [],
-			character: '',
-			currentCharacter: '',
-			planets: [],
-			planet: '',
-			currentPlanet: '',
-			vehicles: [],
-			vehicle: '',
-			currentVehicle: '',
+
+			Characters: [],
+			Planets: [],
+			Vehicles: [],
+
+			favorites: [],
+
 			apiContact: "https://playground.4geeks.com/contact/",
 			agenda: "porduna",
-			contacts: null,
-			favorites: [],
-			currentUser:'',
+			contacts: [],
+			currentUser: null,
 			isLogin: false
 		},
 
@@ -51,126 +48,54 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return elm;
 				});
 
+
 				//reset the global store
 				setStore({ demo: demo });
 			},
 
 			// Lógica para Characters
 			getCharacters: async () => {
-				const response = await fetch("https://www.swapi.tech/api/people/");
-				if (!response.ok) {
-					console.log("Error");
-					return;
-				}
-				const data = await response.json();
-				console.log(data);
-				setStore({ characters: data.results });
-			},
-
-			settingCharacter: (character) => { setStore({ currentCharacter: character }); },
-
-			getCurrentCharacter: async () => {
-				const uri = getStore().currentCharacter;
+				const uri = "https://swapi.dev/api" + "/people"
 				const response = await fetch(uri);
 				if (!response.ok) {
-					console.log("Error");
-					return;
-				}
+					// Aquí manejamos el error que devolvió el request HTTP 
+					console.log('error: ', response.status, response.statusText);
+					return { error: { status: response.status, statusText: response.statusText } };
+				};
 				const data = await response.json();
-				console.log(data);
-				setStore({ currentCharacter: data.result });
+				console.log(data)
+				// De aquí en adelante es la lógica que está en flux
+				setStore({ Characters: data.results });
 			},
-
 
 			// Lógica para Planets
 			getPlanets: async () => {
-				const response = await fetch('https://swapi.dev/api/planets')
-				if (!response.ok) {
-					console.log('Error ');
-					return;
-				};
-				const data = await response.json()
-				console.log(data);
-				setStore({ planets: data.results });
-			},
-			settingPlanet: (planet) => { setStore({ currentPlanet: planet }) },
-
-			getCurrentPlanet: async () => {
-				const uri = getStore().currentPlanet;
+				const uri = "https://swapi.dev/api" + "/planets"
 				const response = await fetch(uri);
 				if (!response.ok) {
-					console.log("Error");
-					return;
-				}
+					console.log('error: ', response.status, response.statusText);
+					return { error: { status: response.status, statusText: response.statusText } };
+				};
 				const data = await response.json();
-				console.log(data);
-				setStore({ currentPlanet: data.result });
+				console.log(data)
+				setStore({ Planets: data.results });
 			},
 
 			// Lógica para Vehicles
 			getVehicles: async () => {
-				const response = await fetch('https://www.swapi.tech/api/starships')
-				if (!response.ok) {
-					console.log('Error ');
-					return;
-				};
-				const data = await response.json()
-				console.log(data);
-				setStore({ vehicles: data.results })
-			},
-			settingVehicle: (vehicle) => { setStore({ currentVehicle: vehicle }) },
-
-			getCurrentVehicle: async () => {
-				const uri = getStore().currentVehicle;
+				const uri = "https://swapi.dev/api" + "/starships"
 				const response = await fetch(uri);
 				if (!response.ok) {
-					console.log("Error");
-					return;
-				}
+					console.log('error: ', response.status, response.statusText);
+					return { error: { status: response.status, statusText: response.statusText } };
+				};
 				const data = await response.json();
-				console.log(data);
-				setStore({ currentVehicle: data.result });
+				console.log(data)
+				setStore({ Vehicles: data.results });
 			},
 			
-			createAgenda: async () => {
-				const store = getStore();
-				const checkUri = "https://playground.4geeks.com/contact/agendas/porduna";
-
-				try {
-					const checkResponse = await fetch(checkUri, { method: 'GET' });
-					if (checkResponse.status === 404) {
-						console.log('Agenda "porduna" does not exist, creating...');
-
-						const createUri = "https://playground.4geeks.com/contact/agendas/porduna";
-						const options = {
-							method: 'POST',
-							headers: { 'Content-Type': 'application/json' },
-							body: JSON.stringify(dataToSend)
-						};
-
-						const createResponse = await fetch(createUri, options);
-						if (!createResponse.ok) {
-							console.log('Add Agenda Error', createResponse.status, createResponse.statusText);
-							return false;
-						}
-
-						console.log(`Agenda "porduna" created successfully`);
-						return true;
-					} else if (checkResponse.ok) {
-						console.log('Agenda "porduna" already exists');
-						return true;
-					} else {
-						console.log('Error checking agenda existence', checkResponse.status, checkResponse.statusText);
-						return false;
-					}
-				} catch (error) {
-					console.log('Network or other error', error);
-					return false;
-				}
-			},
-
-
-			// Logica para contacts
+			
+			//Logica para contacts
 			getContacts: async () => {
 				const uri = `${getStore().apiContact}agendas/${getStore().agenda}/contacts`
 				const response = await fetch(uri);
@@ -184,7 +109,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ contacts: data.contacts });
 			},
 
-			// Lógica para añadir contactos
+			//Lógica para añadir contactos
 			addContact: async (contact) => {
 				const store = getStore();
 				const response = await fetch(`https://playground.4geeks.com/contact/agendas/${getStore().agenda}/contacts`, {
@@ -200,31 +125,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			setcurrentUser: (item) => {
-				console.log("Setting current user:", item);
-				setStore({ currentUser: item });
-			},
-
-			// Lógica para editar contactos
-			updateContact: async (dataToSend) => {
-				const { id, ...data } = dataToSend;
-				const uri = `${getStore().apiContact}agendas/${getStore().agenda}/contacts/${id}`;
-				const options = {
-					method: 'PUT',
-					headers: {
-						'Content-type': 'application/json'
-					},
-					body: JSON.stringify(data)
-				};
-				const response = await fetch(uri, options);
-				if (!response.ok) {
-					console.log('Update Contact Error', response.status, response.statusText);
-					return;
-				}
-				getActions().getContacts();
-			},
-
-			//Lógica para eliminar contactos
 			deleteContact: async (id) => {
 				const store = getStore();
 				const response = await fetch(`https://playground.4geeks.com/contact/agendas/${getStore().agenda}/contacts/${id}`, {
@@ -232,6 +132,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				if (response.ok) {
 					setStore({ contacts: store.contacts.filter(contact => contact.id !== id) });
+				}
+			},
+
+			// Lógica para editar contactos
+			editContact: async (contact) => {
+				const store = getStore();
+				const response = await fetch(`https://playground.4geeks.com/contact/agendas/${store.agenda}/contacts/${contact.id}`, {
+					method: "PUT",
+					body: JSON.stringify(contact),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				});
+				if (response.ok) {
+					const updatedContact = await response.json();
+					setStore({
+						contacts: store.contacts.map(cont =>
+							cont.id === updatedContact.id ? updatedContact : cont
+						)
+					});
 				}
 			},
 
@@ -275,12 +195,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			setIsLogin: (login) => { setStore({ isLogin: login }) },
-
-			profile: async () => {
-			},
-
-
+			
 			//Lógica para favoritos
 			addFavorites: (favorite) => {
 				const store = getStore();
