@@ -14,8 +14,6 @@ import { Dashboard } from "./pages/Dashboard.jsx";
 
 
 import { Contacts } from "./pages/Contacts.jsx";
-import { AddContacts } from "./pages/AddContacts.jsx"
-import { EditContacts } from "./pages/EditContacts.jsx"
 
 
 import injectContext from "./store/appContext";
@@ -49,8 +47,6 @@ const Layout = () => {
 						<Route path="/ships" element={<Ships />} />
 						<Route path="/detail-vehicles/:id" element={<ShipDetails />} />
 						<Route path="/contacts" element={<Contacts />} />
-                        <Route path="/addContacts" element={<AddContacts />}/> 
-                        <Route path="/editContacts" element={<EditContacts />} />
 						<Route path="/login" element={<Login />} />
 						<Route path="/signup" element={<SignUp />} />
                         <Route path="/dashboard" element={<Dashboard />} />
