@@ -7,7 +7,7 @@ export const PlanetDetails = () => {
     const { store, actions } = useContext(Context);
 
     useEffect(() => {
-        actions.getcurrentPlanet();
+        actions.getCurrentPlanet();
     }, []);
 
 
@@ -28,13 +28,13 @@ export const PlanetDetails = () => {
                     </div>
                     <div className="col-md-8">
                         <div className="card-body">
-                        <h1 className="card-title text-dark">{store.currentPlanet.properties.name}</h1>
-                            <p className="card-text text-dark mt-3">Diameter: {store.currentPlanet.properties.height}</p>
-                            <p className="card-text text-dark">Population: {store.currentPlanet.properties.gender}</p>
-                            <p className="card-text text-dark">Climate: {store.currentPlanet.properties.birth_year}</p>
-                            <p className="card-text text-dark">Terrain: {store.currentPlanet.properties.mass}</p>
-                            <p className="card-text text-dark">Orbital Period: {store.currentPlanet.properties.hair_color}</p>
-                            <p className="card-text text-dark">Rotation Period: {store.currentPlanet.properties.skin_color}</p>
+                        <h1 className="card-title text-dark">{store.currentPlanet.name}</h1>
+                            <p className="card-text text-dark mt-3">Diameter: {store.currentPlanet.height}</p>
+                            <p className="card-text text-dark">Population: {store.currentPlanet.gender}</p>
+                            <p className="card-text text-dark">Climate: {store.currentPlanet.birth_year}</p>
+                            <p className="card-text text-dark">Terrain: {store.currentPlanet.mass}</p>
+                            <p className="card-text text-dark">Orbital Period: {store.currentPlanet.hair_color}</p>
+                            <p className="card-text text-dark">Rotation Period: {store.currentPlanet.skin_color}</p>
                         </div>
                     </div>
                 </div>
