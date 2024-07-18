@@ -12,6 +12,18 @@ import { EffectCoverflow, Autoplay } from 'swiper/modules';
 // Feature icono favoritos girando onMouseOver
 export const Characters = () => {
   const { store, actions } = useContext(Context);
+  const [favorites, setFavorites] = useState(store.favorites.map(item => item.name ));
+
+  const toggleFavorite = (name) => {
+      if (favorites.includes(name)) {
+          const updatedFavorites = favorites.filter(item => item !== name);
+          setFavorites(updatedFavorites);
+          actions.removeFavorite(name);
+      } else {
+          setFavorites([...favorites, name]);
+          actions.addFavorites({ name, type:"Character" });
+      }
+  };
   
   // Estado para gestionar los íconos individuales
   const [icons, setIcons] = useState(store.Characters.reduce((acc, item) => {
@@ -82,7 +94,7 @@ export const Characters = () => {
 	                  Skin_color: {item.skin_color}, <br/>
                     etc.
                       <div className="text-end">
-                        <button className="btn btn-outline-warning" onMouseOut={() => staticImage(item.name)} onMouseOver={() => movingImage(item.name)} onClick={() => actions.favorites(item.name)}>
+                        <button className="btn btn-outline-warning" onMouseOut={() => staticImage(item.name)} onMouseOver={() => movingImage(item.name)} onClick={() => toggleFavorite(item.name)}>
                         <i className={icons[item.name]} /></button>
                       </div>
                     </div>
