@@ -12,10 +12,9 @@ import { EffectCoverflow, Autoplay } from 'swiper/modules';
 // Feature icono favoritos girando onMouseOver
 export const Characters = () => {
   const { store, actions } = useContext(Context);
-  const [favorites, setFavorites] = useState(store.favorites.map(item => item.name));
-
+  
   // Estado para gestionar los íconos individuales
-  const [icons, setIcons] = useState(store.characters.reduce((acc, item) => {
+  const [icons, setIcons] = useState(store.Characters.reduce((acc, item) => {
     acc[item.name] = "fa-solid fa-book-journal-whills";
     return acc;
   }, {}));
@@ -34,21 +33,7 @@ export const Characters = () => {
     }));
   };
 
-  const toggleFavorite = (name) => {
-    if (favorites.includes(name)) {
-      const updatedFavorites = favorites.filter(item => item !== name);
-      setFavorites(updatedFavorites);
-      actions.removeFavorite(name);
-    } else {
-      setFavorites([...favorites, name]);
-      actions.addFavorites({ name });
-    }
-  };
-
-  const handleLearnMore = (character, imageUrl) => {
-    actions.settingCharacter({ ...character, imageUrl: imageUrl })
-}
-
+ 
   return (
       <div className="container px-1 py-5 text-centered">
       <Swiper
@@ -60,7 +45,7 @@ export const Characters = () => {
         slidesPerView="auto"
         coverflowEffect={{ rotate: 0, stretch: 0, depth: 80, modifier: 2.5, slideShadows: true,
         }}
-        autoplay={{ delay: 30000,  disableOnInteraction: false,
+        autoplay={{ delay: 3000,  disableOnInteraction: false,
         }}
         breakpoints={{
           640: { slidesPerView: 1, spaceBetween: 10,
@@ -75,13 +60,13 @@ export const Characters = () => {
           {/* <!-- Additional required wrapper --> */}
           <div className="swiper swiper-wrapper mb-5 mb-sm-6">
             {/* <!-- Slide 1 --> */}
-            {store.characters.map((item, index) => (
+            {store.Characters.map((item, index) => (
             <SwiperSlide  key={index}>
             <article>
               <div className="card border-0">
                   {/* Imagen a mostrar con un fadein  */}
                   <figure className="card-img-top m-0" >
-                    <Link to={`/detail-characters/${item.uid}`} onClick={() => handleLearnMore(item.url)}><img className="img-fluid" loading="lazy" src={`https://starwars-visualguide.com/assets/img/characters/${item.uid}.jpg`} alt="..." /></Link>
+                    <Link to={`/detail-characters/`  + index}><img className="img-fluid" loading="lazy" src={`https://starwars-visualguide.com/assets/img/characters/${parseInt(index) + 1}.jpg`} alt="..." /></Link>
                   </figure>
 
                   <div className="card-body border bg-white p-4">
@@ -92,12 +77,12 @@ export const Characters = () => {
                     </div>
                     <div className="card-text entry-summary text-justify" >
                     Height: {item.height},<br/>
-	                  Mass:  {item.mass},<br/>
-	                  Hair_color:  {item.hair_color},<br/>
+	                  Mass: {item.mass},<br/>
+	                  Hair_color: {item.hair_color},<br/>
 	                  Skin_color: {item.skin_color}, <br/>
                     etc.
                       <div className="text-end">
-                        <button className="btn btn-outline-warning" onMouseOut={() => staticImage(item.name)} onMouseOver={() => movingImage(item.name)} onClick={() => toggleFavorite(item.name)}>
+                        <button className="btn btn-outline-warning" onMouseOut={() => staticImage(item.name)} onMouseOver={() => movingImage(item.name)} onClick={() => actions.favorites(item.name)}>
                         <i className={icons[item.name]} /></button>
                       </div>
                     </div>
