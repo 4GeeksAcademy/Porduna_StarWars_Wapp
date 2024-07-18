@@ -1,17 +1,47 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
+import { useParams } from 'react-router-dom';
 
 
 export const CharacterDetails = () => {
 
     const { store, actions } = useContext(Context);
+    const params = useParams();
+    const [characterUno, setCharacterUno] = useState({});
+    const [characterImage, setCharacterImage] = useState("");
 
     useEffect(() => {
-        actions.getCurrentCharacter();
-    }, []);
+        if (store.Characters && store.Characters[params.character]) {
+            fetchCharacterData();
+        }
+    }, [store.Characters, params.character]);
+
+    const fetchCharacterData = () => {
+        fetch(`https://www.swapi.tech/api/people/${params.character}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setCharacterUno(data.result.properties);
+                const characterImage = `https://starwars-visualguide.com/assets/img/characters/${parseInt(params.character) + 1}.jpg`;
+                setCharacterImage(characterImage);
+            })
+            .catch((error) => {
+                console.error('Error fetching character:', error);
+            });
+    };
+
+    if (!store.Characters || !store.Characters[params.character]) {
+        return <div>Loading...</div>;
+    }
+
+    const character = store.Characters[params.character];
 
     return (
-        !store.currentCharacter ?
+        !store.Characters ?
             <div className="spinner-border" role="status">
                 <span className="sr-only">Loading...</span>
             </div>
@@ -20,18 +50,18 @@ export const CharacterDetails = () => {
 
                 <div className="row g-0 ">
                     <div className="col-md-4">
-                        <img src={`https://starwars-visualguide.com/assets/img/characters/${store.currentCharacter.uid}.jpg`} className="img-fluid rounded-start" alt="..." />
+                        <img src={characterImage} className="img-fluid rounded-start" alt="..." />
                     </div>
                     <div className="col-md-8">
                         <div className="card-body">
-                            <h1 className="card-title text-dark">{store.currentCharacter.name}</h1>
-                            <p className="card-text text-dark mt-3">Height: {store.currentCharacter.height}</p>
-                            <p className="card-text text-dark">Gender: {store.currentCharacter.gender}</p>
-                            <p className="card-text text-dark">Birth: {store.currentCharacter.birth_year}</p>
-                            <p className="card-text text-dark">Mass: {store.currentCharacter.mass}</p>
-                            <p className="card-text text-dark">Hair: {store.currentCharacter.hair_color}</p>
-                            <p className="card-text text-dark">Skin: {store.currentCharacter.skin_color}</p>
-                            <p className="card-text text-dark">Eyes: {store.currentCharacter.eye_color}</p>
+                            <h1 className="card-title text-dark">{character.name}</h1>
+                            <p className="card-text text-dark mt-3">Height: {character.height}</p>
+                            <p className="card-text text-dark">Gender: {character.gender}</p>
+                            <p className="card-text text-dark">Birth: {character.birth_year}</p>
+                            <p className="card-text text-dark">Mass: {character.mass}</p>
+                            <p className="card-text text-dark">Hair: {character.hair_color}</p>
+                            <p className="card-text text-dark">Skin: {character.skin_color}</p>
+                            <p className="card-text text-dark">Eyes: {character.eye_color}</p>
                         </div>
                     </div>
                 </div>
