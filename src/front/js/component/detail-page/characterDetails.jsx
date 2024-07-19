@@ -7,17 +7,18 @@ export const CharacterDetails = () => {
 
     const { store, actions } = useContext(Context);
     const params = useParams();
+    console.log(params);
     const [characterUno, setCharacterUno] = useState({});
     const [characterImage, setCharacterImage] = useState("");
 
     useEffect(() => {
-        if (store.Characters && store.Characters[params.character]) {
+        if (store.Characters && store.Characters[params.id]) {
             fetchCharacterData();
         }
-    }, [store.Characters, params.character]);
+    }, [store.Characters, params.id]);
 
     const fetchCharacterData = () => {
-        fetch(`https://www.swapi.tech/api/people/${params.character}`)
+        fetch(`https://www.swapi.tech/api/people/${parseInt(params.id) + 1}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -26,7 +27,7 @@ export const CharacterDetails = () => {
             })
             .then((data) => {
                 setCharacterUno(data.result.properties);
-                const characterImage = `https://starwars-visualguide.com/assets/img/characters/${parseInt(params.character) + 1}.jpg`;
+                const characterImage = `https://starwars-visualguide.com/assets/img/characters/${parseInt(params.id) + 1}.jpg`;
                 setCharacterImage(characterImage);
             })
             .catch((error) => {
@@ -34,11 +35,11 @@ export const CharacterDetails = () => {
             });
     };
 
-    if (!store.Characters || !store.Characters[params.character]) {
+    if (!store.Characters || !store.Characters[params.id]) {
         return <div>Loading...</div>;
     }
 
-    const character = store.Characters[params.character];
+    const character = store.Characters[params.id];
 
     return (
         !store.Characters ?

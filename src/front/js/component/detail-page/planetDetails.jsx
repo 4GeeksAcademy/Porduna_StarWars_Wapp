@@ -11,13 +11,13 @@ export const PlanetDetails = () => {
     const [planetImage, setPlanetImage] = useState("");
 
     useEffect(() => {
-        if (store.Planets && store.Planets[params.planet]) {
+        if (store.Planets && store.Planets[params.id]) {
             fetchPlanetData();
         }
-    }, [store.Planets, params.planet]);
+    }, [store.Planets, params.id]);
 
     const fetchPlanetData = () => {
-        fetch(`https://www.swapi.tech/api/planets/${params.planet}`)
+        fetch(`https://www.swapi.tech/api/planets/${parseInt(params.id) + 1}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -26,7 +26,7 @@ export const PlanetDetails = () => {
             })
             .then((data) => {
                 setPlanetUno(data.result.properties);
-                const planetImage = `https://starwars-visualguide.com/assets/img/planets/${parseInt(params.planet) + 1}.jpg`;
+                const planetImage = `https://starwars-visualguide.com/assets/img/planets/${parseInt(params.id) + 1}.jpg`;
                 setPlanetImage(planetImage);
             })
             .catch((error) => {
@@ -34,11 +34,11 @@ export const PlanetDetails = () => {
             });
     };
 
-    if (!store.Planets || !store.Planets[params.planet]) {
+    if (!store.Planets || !store.Planets[params.id]) {
         return <div>Loading...</div>;
     }
 
-    const planet = store.Planets[params.planet];
+    const planet = store.Planets[params.id];
 
     return (
         !store.Planets ?

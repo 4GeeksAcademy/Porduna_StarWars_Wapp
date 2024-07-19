@@ -11,13 +11,13 @@ export const ShipDetails = () => {
     const [vehicleImage, setVehicleImage] = useState("");
 
     useEffect(() => {
-        if (store.Vehicles && store.Vehicles[params.vehicle]) {
+        if (store.Vehicles && store.Vehicles[params.id]) {
             fetchVehicleData();
         }
-    }, [store.Vehicles, params.vehicle]);
+    }, [store.Vehicles, params.id]);
 
     const fetchVehicleData = () => {
-        fetch(`https://www.swapi.tech/api/starships/${params.vehicle}`)
+        fetch(`https://www.swapi.tech/api/starships/${parseInt(params.id) + 1}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -26,7 +26,7 @@ export const ShipDetails = () => {
             })
             .then((data) => {
                 setVehicleUno(data.result.properties);
-                const vehicleImage = `https://starwars-visualguide.com/assets/img/starships/${parseInt(params.vehicle) + 6}.jpg`;
+                const vehicleImage = `https://starwars-visualguide.com/assets/img/starships/${parseInt(params.id) + 6}.jpg`;
                 setVehicleImage(vehicleImage);
             })
             .catch((error) => {
@@ -34,11 +34,11 @@ export const ShipDetails = () => {
             });
     };
 
-    if (!store.Vehicles || !store.Vehicles[params.vehicle]) {
+    if (!store.Vehicles || !store.Vehicles[params.id]) {
         return <div>Loading...</div>;
     }
 
-    const vehicle = store.Vehicles[params.vehicle];
+    const vehicle = store.Vehicles[params.id];
 
     return (
         !store.Vehicles ?
