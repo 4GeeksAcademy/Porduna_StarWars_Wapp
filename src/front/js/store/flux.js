@@ -12,7 +12,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			apiContact: "https://playground.4geeks.com/contact/",
 			agenda: "porduna",
 			contacts: [],
-			currentUser: null,
+
+			user: null,
 			isLogin: false
 		},
 
@@ -169,11 +170,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 					const data = await response.json();
 					localStorage.setItem("token", data.access_token);
-					setStore({ isLogin: true, currentUser: data.results });
+					setStore({ isLogin: true, user: data.results });
 				} catch (error) {
 					console.error("There has been a problem with your fetch operation:", error);
 				}
 			},
+
+			setIsLogin: (login) => { setStore({ isLogin: login }) },
+			setUser: (user) => { setStore({ user: user }) },
 
 			signup: async (email, password) => {
 				try {
@@ -189,7 +193,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 					const data = await response.json();
 					localStorage.setItem("token", data.access_token);
-					setStore({ isLogin: true, currentUser: data.results });
+					setStore({ isLogin: true, user: data.results });
 				} catch (error) {
 					console.error("There has been a problem with your fetch operation:", error);
 				}

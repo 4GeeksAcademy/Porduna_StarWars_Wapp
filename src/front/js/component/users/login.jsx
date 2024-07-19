@@ -7,7 +7,6 @@ export const Login = () => {
   const { actions } = useContext(Context);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); // Para almacenar el mensaje de error
   const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
@@ -17,41 +16,29 @@ export const Login = () => {
     setPassword(event.target.value);
   };
  
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const dataToSend = { email, password };
     const url = `${process.env.BACKEND_URL}/api/login`;
     const options = {
-      method: 'POST',
-      body: JSON.stringify(dataToSend),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
-
-    try {
-      const response = await fetch(url, options);
-      if (!response.ok) {
-        if (response.status === 401 || response.status === 404) {
-          // Si las credenciales son incorrectas o el usuario no existe
-          setErrorMessage("Usuario o contraseña incorrectos. Por favor, inténtelo de nuevo.");
-        } else {
-          // Para otros errores
-          setErrorMessage("Ocurrió un error. Por favor, inténtelo de nuevo más tarde.");
-        }
-        return;
-      }
-
-      const data = await response.json();
-      localStorage.setItem('token', data.access_token);
-      actions.setIsLogin(true);
-      actions.setCurrentUser(data.results);
-      navigate('/dashboard');
-    } catch (error) {
-      console.error('Error de fetch:', error);
-      setErrorMessage("Ocurrió un error. Por favor, inténtelo de nuevo más tarde.");
+        method: 'POST',
+        body: JSON.stringify(dataToSend),
+        headers: {
+            'Content-Type' : 'application/json'
+        }        
     }
-  };
+    const response = await fetch(url, options)
+    if (!response.ok) {
+        console.log('Error: ', response.status, response.statusText);
+        return 
+    }
+    const data = await response.json();
+    localStorage.setItem("token", data.access_token);
+    localStorage.setItem("user", JSON.stringify(data.results));
+    actions.setIsLogin(true);
+    actions.setUser(data.results);
+    navigate('/characters')
+};
 
   return (
     <div className="d-flex justify-content-center">
