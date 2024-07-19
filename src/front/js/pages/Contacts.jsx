@@ -108,7 +108,7 @@ export const Contacts = () => {
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
-                                <form>
+                                <div>
                                     <div className="mb-3">
                                         <label htmlFor="name" className="form-label">Name</label>
                                         <input type="text" className="form-control" id="name"
@@ -129,7 +129,7 @@ export const Contacts = () => {
                                         <input type="text" className="form-control" id="address"
                                             name="address" value={newContact.address} onChange={handleChange}/>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-dark" data-bs-dismiss="modal">
